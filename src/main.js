@@ -1,4 +1,14 @@
+import { ControlComponent } from './app/control.component';
+import { DisplayComponent } from './app/display.component';
+import './assets/css/style.scss';
+
 export function main() {
+  const controlComponent = new ControlComponent();
+  const displayComponent = new DisplayComponent();
+
+  const mainEl = document.querySelector('.main');
+  mainEl.innerHTML += controlComponent.render();
+  mainEl.innerHTML += displayComponent.render();
 }
 
 // Mozilla, Opera, Webkit

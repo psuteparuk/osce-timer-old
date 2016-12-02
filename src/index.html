@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="<%= webpackConfig.metadata.lang %>">
+  <head>
+    <title><%= webpackConfig.metadata.title %></title>
+    <meta charset="UTF-8">
+    <meta name="author" content="<%= webpackConfig.metadata.author %>">
+    <meta name="copyright" content="<%= webpackConfig.metadata.copyright %>">
+    <meta name="description" content="<%= webpackConfig.metadata.description %>">
+    <meta name="keywords" content="<%= webpackConfig.metadata.keywords %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="<%= webpackConfig.metadata.title %>">
+    <meta property="og:title" content="<%= webpackConfig.metadata.title %>">
+    <meta property="og:description" content="<%= webpackConfig.metadata.description %>">
+    <meta property="og:locale" content="<%= webpackConfig.metadata.locale %>">
+
+    <base href="<%= webpackConfig.metadata.basepath %>">
+  </head>
+
+  <body>
+    <div class="main" role="main"></div>
+  </body>
+</html>

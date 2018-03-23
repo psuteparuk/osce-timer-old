@@ -6,24 +6,26 @@ export function main() {
   const controlComponent = new ControlComponent();
   const displayComponent = new DisplayComponent();
 
-  const mainEl = document.querySelector('.main');
-  mainEl.innerHTML += controlComponent.render();
-  mainEl.innerHTML += displayComponent.render();
+  document.querySelector('.js-control').innerHTML = controlComponent.render();
+  displayComponent
+    .render()
+    .subscribe((html) => {
+      document.querySelector('.js-display').innerHTML = html;
+    });
 }
 
-// Mozilla, Opera, Webkit
-if (document.addEventListener) {
-  document.addEventListener("DOMContentLoaded", () => {
-    document.removeEventListener("DOMContentLoaded", arguments.callee, false);
+if (document.addEventListener) { // Mozilla, Opera, Webkit
+  const run = () => {
+    document.removeEventListener('DOMContentLoaded', run, false);
     main();
-  });
-}
-// If IE event model is used
-else if (document.attachEvent) {
-  document.attachEvent("onreadystatechange", () => {
-    if (document.readyState === "complete") {
-      document.detachEvent("onreadystatechange", arguments.callee);
+  };
+  document.addEventListener('DOMContentLoaded', run);
+} else if (document.attachEvent) { // If IE event model is used
+  const run = () => {
+    if (document.readyState === 'complete') {
+      document.removeEventListener('onreadystatechange', run);
       main();
     }
-  });
+  };
+  document.attachEvent('onreadystatechange', run);
 }

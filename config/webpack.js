@@ -5,7 +5,7 @@ import {
   HOST,
   PORT,
   root,
-  src
+  src,
 } from './config';
 
 // Webpack Plugins
@@ -22,23 +22,23 @@ export default (() => {
 
   config.metadata = HTML_METADATA;
 
-  config.devtool = IS_PROD ? 'source-map' : 'cheap-eval-source-map';
+  config.devtool = IS_PROD ? 'source-map' : 'eval-source-map';
 
   config.cache = IS_DEV;
 
   config.entry = {
-    main: src('main.js')
+    main: src('main.js'),
   };
 
   config.output = {
     path: root('dist'),
     filename: IS_PROD ? '[name].[chunkhash].bundle.js' : '[name].bundle.js',
-    chunkFilename: IS_PROD ? '[id].[chunkhash].chunk.js' : '[id].chunk.js'
+    chunkFilename: IS_PROD ? '[id].[chunkhash].chunk.js' : '[id].chunk.js',
   };
 
   config.resolve = {
     extensions: ['', '.js', '.json'],
-    root: src()
+    root: src(),
   };
 
   config.plugins = (() => {
@@ -46,9 +46,9 @@ export default (() => {
       new webpack.optimize.OccurrenceOrderPlugin(),
       new HtmlWebpackPlugin({
         template: src('index.html'),
-        inject: 'body'
+        inject: 'body',
       }),
-      new ExtractTextPlugin('css/[name].[hash].css', { disable: IS_DEV })
+      new ExtractTextPlugin('css/[name].[hash].css', { disable: IS_DEV }),
     ];
 
     if (IS_PROD) {
@@ -58,12 +58,12 @@ export default (() => {
           comments: false,
           compressor: {
             screw_ie8: true,
-            warnings: false
+            warnings: false,
           },
           mangle: {
             keep_fnames: true,
-            screw_ie8: true
-          }
+            screw_ie8: true,
+          },
         })
       );
     }
@@ -77,70 +77,66 @@ export default (() => {
         test: /\.js$/,
         loader: 'babel',
         query: {
-          cacheDirectory: IS_DEV
+          cacheDirectory: IS_DEV,
         },
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json',
       },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('style', 'css!postcss'),
-        exclude: src('app')
+        exclude: src('app'),
       },
       {
         test: /\.css$/,
         loader: 'raw!postcss',
-        exclude: src('assets/css')
+        exclude: src('assets/css'),
       },
       // All scss in assets will be bundled in an external css file.
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style', 'css!postcss!sass'),
-        exclude: src('app')
+        exclude: src('app'),
       },
       // All scss required in app folder will be merged in js files.
       {
         test: /\.scss$/,
         loader: 'raw!postcss!sass',
-        exclude: src('assets/css')
+        exclude: src('assets/css'),
       },
       {
         test: /\.html$/,
         loader: 'raw',
-        exclude: src('index.html')
-      },
-      {
-        test: /\.ejs$/,
-        loader: 'ejs-loader'
+        exclude: src('index.html'),
       },
       {
         test: /\.(?:ttf|eot|svg|woff2?|png|jpe?g)(?:\?.*)?$/,
-        loader: IS_PROD ? 'file?name=/[sha1:hash:hex:32].[ext]' : 'url'
-      }
-    ]
+        loader: IS_PROD ? 'file?name=/[sha1:hash:hex:32].[ext]' : 'url',
+      },
+    ],
   };
 
   config.postcss = [
     autoprefixer({
-      browsers: ['last 2 versions']
+      browsers: ['last 2 versions'],
     }),
     assets({
       basePath: src(),
       loadPaths: [
         src('assets/images'),
-        src('assets/fonts')
-      ]
-    })
+        src('assets/fonts'),
+      ],
+    }),
   ];
 
   if (IS_DEV) {
     config.devServer = {
       host: HOST,
       port: PORT,
-      historyApiFallback: true
+      historyApiFallback: true,
     };
   }
 
